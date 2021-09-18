@@ -18,11 +18,13 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'vendedores'], function() use($router) {
-    $router->get('/', 'VendedorController@index');
-    $router->get('/{id}', 'VendedorController@show');
-    $router->post('/store', 'VendedorController@store');
+    $router->get('', 'VendedorController@index');
+    $router->get('{id}', 'VendedorController@show');
+    $router->post('', 'VendedorController@store');
+    $router->put('{id}', 'VendedorController@update');
+    $router->delete('{id}', 'VendedorController@destroy');
 });
 
 $router->group(['prefix' => 'vendas'], function() use($router) {
-    $router->post('/store', 'VendaController@store');
+    $router->post('', 'VendaController@store');
 });
