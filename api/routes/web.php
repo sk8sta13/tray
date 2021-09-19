@@ -13,11 +13,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->post('meutoken', 'TokenController@gerarToken');
 
-$router->group(['prefix' => 'vendedores'], function() use($router) {
+$router->group(['prefix' => 'vendedores', 'middleware' => 'auth'], function() use($router) {
     $router->get('', 'VendedorController@index');
     $router->get('{id}', 'VendedorController@show');
     $router->post('', 'VendedorController@store');
@@ -25,6 +23,6 @@ $router->group(['prefix' => 'vendedores'], function() use($router) {
     $router->delete('{id}', 'VendedorController@destroy');
 });
 
-$router->group(['prefix' => 'vendas'], function() use($router) {
+$router->group(['prefix' => 'vendas', 'middleware' => 'auth'], function() use($router) {
     $router->post('', 'VendaController@store');
 });
