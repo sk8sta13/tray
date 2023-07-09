@@ -2,14 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Laravel\Lumen\Routing\Controller;
+use App\Services\VendaService;
+use Illuminate\Http\Request;
+
 class VendaController extends Controller
 {
-    public function __construct()
+    public function __construct(
+        private VendaService $service
+    )
     {
-        $this->class = App\Models\Venda::class;
-        $this->rulesVallidate = [
-            'vendedor_id' => 'required',
-            'valor_venda' => 'required|numeric|max:15|gt:0|regex:/^-?[0-9]+(?:.[0-9]{1,2})?$/'
-        ];
+    }
+
+    public function index()
+    {
+        return $this->service->all();
+    }
+
+    public function store(Request $request)
+    {
+        return $this->service->create($request);
+    }
+
+    public function show($id)
+    {
+        return $this->service->find($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $this->service->update($id, $request);
+    }
+
+    public function destroy($id)
+    {
+        return $this->service->delete($id);
     }
 }
