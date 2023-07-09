@@ -1,2 +1,2 @@
 /docker/mysql/data/*
-/nginx/log/*.log
+/docker/nginx/log/*.log
