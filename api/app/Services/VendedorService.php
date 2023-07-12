@@ -23,7 +23,17 @@ class VendedorService
 
     public function all()
     {
-        return $this->repository->all();
+        return response()->json($this->repository->all(), 200);
+    }
+
+    public function find($id)
+    {
+        $recurso = $this->repository->find($id);
+        if (!$recurso) {
+            return response()->json([], 204);
+        }
+
+        return response()->json($recurso, 200);
     }
 
     public function create(Request $request)
@@ -35,28 +45,13 @@ class VendedorService
         return response()->json($data, 201);
     }
 
-    public function find($id)
-    {
-        $recurso = $this->repository->find($id);
-        if (!$recurso) {
-            return response()->json('', 204);
-        }
-
-        return response()->json($recurso);
-    }
-
     public function update($id, Request $request)
     {
         $this->validate($request, $this->rulesValidate);
 
-        $recurso = $this->repository->find($id);
-        if ($recurso) {
-            return response()->json(['error' => 'Resource not found'], 404);
-        }
+        $recurso = $this->repository->update($id, $request->all());
 
-        $recurso->update($request->all());
-
-        return response()->json($recurso);
+        return response()->json($recurso, 200);
     }
 
     public function delete($id)

@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
-use App\Repositories\VendaRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Repositories\VendaRepositoryInterface;
+use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
 
 class VendaService
 {
     use ProvidesConvenienceMethods;
 
-    private $rulesValidate = [
+    protected $rulesValidate = [
         'vendedor_id' => 'required',
         'valor_venda' => 'required|numeric|max:15|gt:0|regex:/^-?[0-9]+(?:.[0-9]{1,2})?$/'
     ];
