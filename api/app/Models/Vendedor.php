@@ -10,7 +10,7 @@ class Vendedor extends Model
     use HasFactory;
     public $table = 'vendedores';
     public $timestamps = false;
-    protected $fillable = ['nome', 'email'];
+    public $fillable = ['nome', 'email'];
     
     public function vendas()
     {

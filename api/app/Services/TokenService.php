@@ -6,11 +6,17 @@ use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Firebase\JWT\JWT;
-use App\Models\User;
+use App\Repositories\UserRepositoryInterface;
 
 class TokenService
 {
     use ProvidesConvenienceMethods;
+
+    public function __construct(
+        protected UserRepositoryInterface $userRepository
+    )
+    {
+    }
 
     public function getToken(Request $request)
     {
@@ -19,7 +25,8 @@ class TokenService
             'password' => 'required'
         ]);
 
-        $usuario = User::where('email', $request->get('email'))->first();
+        $usuario = $this->userRepository->search(['email' => $request->get('email')]);
+        $usuario = (empty($usuario)) ? null : $usuario[0];
 
         if (!$usuario || !Hash::check($request->get('password'), $usuario->password)) {
             return response()->json('Not authorized', 401);

@@ -23,6 +23,17 @@ class BaseRepository implements RepositoryInterface
         return $this->model->find($id);
     }
 
+    public function search(array $where)
+    {
+        $query = $this->model->query();
+        foreach ($this->model->fillable as $field) {
+            $query->when(in_array($field, $where), function($q) use($field, $where) {
+                return $q->where($field, $where[$field]);
+            });
+        }
+        return $query->get();
+    }
+
     public function create(array $data)
     {
         return $this->model->create($data);
